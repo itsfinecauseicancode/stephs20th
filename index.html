@@ -1,0 +1,368 @@
+<title>For Steph</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --paper:#fbf0ee;        /* blush paper ground */
+    --sheet:#fffaf6;        /* the letter sheet */
+    --ink:#4a3238;          /* warm plum-brown typewriter ink */
+    --pen:#c2456d;          /* her pink — handwriting + underlines */
+    --rose:#f3cdd6;         /* envelope blush */
+    --wax:#a92c4e;          /* wax seal */
+    --gold:#b98a3e;         /* stamp + small gilt details */
+    --shadow:rgba(74,50,56,.16);
+  }
+
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none !important;transition:none !important}
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.29 0 0 0 0 0.2 0 0 0 0 0.22 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    color:var(--ink);
+    font-family:"American Typewriter","Courier New",Georgia,serif;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .script{font-family:"Snell Roundhand","Savoye LET","Bradley Hand","Segoe Script",cursive}
+  .didot{font-family:Didot,"Bodoni 72","Playfair Display","Times New Roman",serif}
+
+  /* ---------- envelope scene ---------- */
+
+  .porch{
+    min-height:100svh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:2.2rem;padding:2rem 1rem;box-sizing:border-box;
+  }
+
+  .porch-note{
+    font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--pen);opacity:.85;
+  }
+
+  .envelope{
+    position:relative;
+    width:min(480px,92vw);aspect-ratio:480/310;
+    background:linear-gradient(160deg,#f7d9e0,var(--rose) 55%,#eec0cc);
+    border-radius:6px;
+    box-shadow:0 18px 40px -18px var(--shadow), 0 2px 6px rgba(74,50,56,.08);
+    cursor:pointer;border:0;padding:0;
+    transform:rotate(-1.2deg);
+    transition:transform .3s ease;
+  }
+  .envelope:hover,.envelope:focus-visible{transform:rotate(-.4deg) translateY(-3px)}
+  .envelope:focus-visible{outline:3px solid var(--pen);outline-offset:6px}
+
+  .flap{
+    position:absolute;inset:0 0 auto 0;height:56%;
+    background:linear-gradient(175deg,#f9e2e8,#efc5d0);
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    border-radius:6px 6px 0 0;
+    transform-origin:top center;
+    transition:transform .8s cubic-bezier(.6,.05,.3,1), opacity .4s ease .5s;
+    z-index:3;
+  }
+  .envelope.open .flap{transform:rotateX(170deg);opacity:0}
+
+  .flap-lining{
+    position:absolute;inset:0;
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    background:repeating-linear-gradient(45deg,transparent 0 10px,rgba(194,69,109,.14) 10px 12px);
+  }
+
+  .addr{
+    position:absolute;left:8%;bottom:9%;z-index:2;text-align:left;
+    line-height:1.5;font-size:clamp(.85rem,2.6vw,1.05rem);
+  }
+  .addr .to{font-size:.68em;letter-spacing:.22em;text-transform:uppercase;opacity:.6}
+  .addr .name{font-size:2.1em;color:var(--pen);display:block;margin-top:.1em}
+
+  .stamp{
+    position:absolute;right:6%;top:9%;z-index:2;
+    width:17%;aspect-ratio:4/5;
+    background:var(--sheet);
+    background-clip:padding-box;
+    border:4px dotted var(--rose);   /* perforated edge illusion */
+    box-shadow:inset 0 0 0 3px var(--sheet), inset 0 0 0 4px rgba(185,138,62,.5), 0 1px 3px rgba(74,50,56,.12);
+    display:flex;align-items:center;justify-content:center;
+    transform:rotate(3deg);box-sizing:border-box;
+  }
+  .stamp span{color:var(--gold);font-size:clamp(1.1rem,4vw,1.8rem)}
+
+  .postmark{
+    position:absolute;right:27%;top:8%;z-index:5;
+    width:23%;aspect-ratio:1;border:2px solid rgba(74,50,56,.35);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-size:clamp(.42rem,1.5vw,.6rem);letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(74,50,56,.55);transform:rotate(-8deg);
+    line-height:1.6;
+  }
+
+  .seal{
+    position:absolute;left:50%;top:47%;z-index:4;
+    width:64px;height:64px;margin:-32px 0 0 -32px;
+    background:radial-gradient(circle at 35% 30%,#c94a6e,var(--wax) 60%,#8c2140);
+    border-radius:48% 52% 50% 50%/52% 48% 52% 48%;
+    box-shadow:0 3px 8px rgba(140,33,64,.45), inset 0 2px 4px rgba(255,255,255,.25), inset 0 -3px 6px rgba(0,0,0,.2);
+    display:flex;align-items:center;justify-content:center;
+    color:#f6d9e2;font-size:1.6rem;
+    transition:transform .5s ease, opacity .5s ease;
+  }
+  .envelope.open .seal{transform:scale(.4) rotate(40deg);opacity:0}
+
+  /* ---------- letter ---------- */
+
+  .desk{padding:5rem 1rem 3rem;display:none}
+  .desk.out{display:block;animation:rise .9s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  /* no-JS fallback lives in the <noscript> style block below */
+
+  .sheet{
+    position:relative;
+    max-width:620px;margin:0 auto;
+    background:var(--sheet);
+    padding:clamp(2.2rem,6vw,4rem) clamp(1.4rem,5vw,3.4rem);
+    box-shadow:0 24px 60px -30px var(--shadow), 0 2px 8px rgba(74,50,56,.07);
+    transform:rotate(.4deg);
+  }
+
+  .tape{
+    position:absolute;width:110px;height:34px;
+    background:rgba(243,205,214,.65);
+    backdrop-filter:none;
+    box-shadow:0 1px 3px rgba(74,50,56,.12);
+    background-image:repeating-linear-gradient(90deg,rgba(194,69,109,.12) 0 6px,transparent 6px 14px);
+  }
+  .tape.tl{top:-14px;left:8%;transform:rotate(-5deg)}
+  .tape.br{bottom:-14px;right:7%;transform:rotate(4deg)}
+
+  .dateline{
+    font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;
+    color:rgba(74,50,56,.5);margin:0 0 2.6rem;
+  }
+
+  .sheet p{
+    margin:0 0 1.5rem;
+    font-size:clamp(1rem,2.4vw,1.075rem);
+    max-width:60ch;
+  }
+
+  .sheet .hey{font-size:2.6rem;color:var(--pen);margin-bottom:2rem;line-height:1.2}
+
+  .underlined{
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 9' preserveAspectRatio='none'%3E%3Cpath d='M2 6 Q 18 2, 34 5.5 T 66 5 T 98 6 T 118 4' fill='none' stroke='%23c2456d' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") bottom left/100% .5em no-repeat;
+    padding-bottom:.32em;
+  }
+
+  .margin-note{
+    display:block;
+    color:var(--pen);
+    font-size:clamp(1.7rem,4.5vw,2.1rem);line-height:1.3;
+    transform:rotate(-2deg);
+    margin:2.4rem 0 2.6rem;
+  }
+
+  .sheet .bigline{
+    font-size:clamp(3rem,10vw,4.4rem);
+    color:var(--pen);
+    line-height:1.15;
+    margin:3rem 0 !important;
+    max-width:none !important;
+    transform:rotate(-1.5deg);
+  }
+
+  .sheet .signoff{
+    font-size:2.8rem;color:var(--pen);
+    text-align:left;margin:2.8rem 0 0;max-width:none;
+    transform:rotate(-3deg);
+  }
+
+  /* ---------- 19 -> 20 ---------- */
+
+  .toast{
+    max-width:620px;margin:5rem auto 0;text-align:center;
+    padding:0 1rem;box-sizing:border-box;
+  }
+  .years{
+    display:flex;align-items:baseline;justify-content:center;gap:clamp(1rem,6vw,2.5rem);
+    color:var(--ink);
+  }
+  .years .old{
+    font-size:clamp(3.5rem,14vw,6rem);opacity:.32;position:relative;
+  }
+  .years .old::after{
+    content:"";position:absolute;left:-6%;right:-6%;top:52%;height:3px;
+    background:var(--pen);transform:rotate(-7deg);border-radius:2px;
+  }
+  .years .arrow{color:var(--pen);font-size:clamp(1.4rem,5vw,2.2rem)}
+  .years .new{
+    font-size:clamp(6rem,24vw,10.5rem);color:var(--pen);
+    text-shadow:4px 4px 0 rgba(194,69,109,.15);
+  }
+  .toast-cap{
+    font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;
+    color:rgba(74,50,56,.55);margin-top:.6rem;
+  }
+
+  /* ---------- candle ---------- */
+
+  .wish{
+    display:flex;flex-direction:column;align-items:center;
+    margin:4.5rem auto 0;gap:1.4rem;padding-bottom:1rem;
+  }
+  .candle-btn{background:none;border:0;cursor:pointer;padding:1rem}
+  .candle-btn:focus-visible{outline:3px solid var(--pen);outline-offset:4px;border-radius:8px}
+
+  .candle{position:relative;width:26px;height:88px;margin:40px auto 0;
+    background:repeating-linear-gradient(115deg,#fff 0 7px,var(--rose) 7px 14px);
+    border-radius:5px 5px 3px 3px;
+    box-shadow:0 4px 10px -4px var(--shadow);
+  }
+  .wickline{position:absolute;top:-9px;left:50%;width:2px;height:9px;margin-left:-1px;background:#5c4a44}
+  .flame{
+    position:absolute;top:-34px;left:50%;width:16px;height:26px;margin-left:-8px;
+    background:radial-gradient(circle at 50% 80%,#fff2c4 0 25%,#f9c463 55%,#ef8f3c 80%,transparent 100%);
+    border-radius:50% 50% 45% 45%/62% 62% 38% 38%;
+    transform-origin:bottom center;
+    animation:flick 2.2s ease-in-out infinite;
+    filter:drop-shadow(0 0 12px rgba(249,196,99,.75));
+    transition:opacity .45s ease, transform .45s ease;
+  }
+  @keyframes flick{
+    0%,100%{transform:scaleY(1) rotate(-2deg)}
+    30%{transform:scaleY(1.12) rotate(2deg)}
+    60%{transform:scaleY(.94) rotate(-1deg)}
+  }
+  .blown .flame{opacity:0;transform:scaleY(.2) translateY(6px)}
+  .smoke{
+    position:absolute;top:-46px;left:50%;width:3px;height:30px;margin-left:-1px;
+    border-radius:3px;background:linear-gradient(to top,rgba(120,110,112,.45),transparent);
+    opacity:0;
+  }
+  .blown .smoke{animation:puff 1.6s ease-out forwards}
+  @keyframes puff{
+    0%{opacity:.8;transform:translateY(0) scaleX(1)}
+    100%{opacity:0;transform:translateY(-34px) scaleX(3)}
+  }
+
+  .wish-cap{font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(74,50,56,.55)}
+  .wish-made{
+    font-size:2rem;color:var(--pen);opacity:0;transition:opacity 1s ease .4s;
+    transform:rotate(-2deg);min-height:1.4em;
+  }
+  .blown-wrap .wish-made{opacity:1}
+
+  footer{
+    text-align:center;padding:3rem 1rem 4rem;
+    font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;
+    color:rgba(74,50,56,.4);
+  }
+</style>
+
+<section class="porch" id="porch">
+  <p class="porch-note">You've got mail, princess</p>
+  <button class="envelope" id="envelope" aria-label="Open your birthday letter">
+    <div class="flap"><div class="flap-lining"></div></div>
+    <div class="stamp"><span class="didot">20</span></div>
+    <div class="postmark">Sugarbaby<br>Post<br>Jul 27 2026</div>
+    <div class="addr">
+      <span class="to">hand-delivered, with love, to</span>
+      <span class="name script">Steph</span>
+    </div>
+    <div class="seal script" aria-hidden="true">S</div>
+  </button>
+  <p class="porch-note" style="letter-spacing:.18em;opacity:.6">tap the seal to open</p>
+</section>
+
+<noscript><style>.desk{display:block !important}</style></noscript>
+
+<section class="desk" id="desk">
+  <div class="sheet">
+    <span class="tape tl" aria-hidden="true"></span>
+    <span class="tape br" aria-hidden="true"></span>
+
+    <p class="dateline">July 27, 2026 &middot; the big two-oh</p>
+
+    <p class="hey script">Heyyy,</p>
+
+    <p>Tbh, I&rsquo;m writing this not happy cause i wanted to spend time with you leading up to your birthday. I guess we can&rsquo;t always get our way.</p>
+
+    <p>But regardless. Big 20. 2 decades around this earth. A long ass time. A lot of ups and downs. wins and losses. great times and rock bottoms.</p>
+
+    <p>The Lord has seen you through it all. And most especially you&rsquo;ve picked yourself up when times are hard and made sure to reward yourself when they look up. Words can&rsquo;t express how proud of you I am.</p>
+
+    <p>Most especially they can&rsquo;t describe how great of a person you are babe. <span class="underlined">A sugar, pink, feminine, beautiful, princess.</span> With a great head on her shoulders.</p>
+
+    <p>Deeply caring, empathetic, capable, talented, interesting, and most especially fun to be around.</p>
+
+    <p>There&rsquo;s never a dull moment with you in a good way. That&rsquo;s what I love about spending time with you. <span class="underlined">I never for one second want to be any other place.</span></p>
+
+    <p>A genuinely great person with one of the purest kindest hearts I&rsquo;ve ever known. I don&rsquo;t know what I did for Jesus to bless me with such a girl to not only be in my life, but make me lucky enough to call my girlfriend.</p>
+
+    <p>Thank you for always being with me through everything. When I&rsquo;m down you&rsquo;re there to comfort me. When I&rsquo;m up you&rsquo;re there to celebrate with me. I couldn&rsquo;t have asked for a better person to spend the rest of my life with</p>
+
+    <p class="bigline script">Happy Birthday my&nbsp;sugarbaby.</p>
+
+    <p>I love you with every fiber of my being.</p>
+
+    <p>I hope year 20 is your best ever year.</p>
+
+    <p>And I promise to be there every single second making sure that is the case</p>
+
+    <span class="margin-note script">Here&rsquo;s to a great 19 and an even better 20!</span>
+
+    <p class="signoff script">&mdash;&nbsp;E</p>
+  </div>
+
+  <div class="toast">
+    <div class="years didot" aria-label="19 becomes 20">
+      <span class="old">19</span>
+      <span class="arrow script" aria-hidden="true">to an even better</span>
+      <span class="new">20</span>
+    </div>
+    <p class="toast-cap">two decades of you</p>
+  </div>
+
+  <div class="wish blown-wrap-target" id="wishWrap">
+    <button class="candle-btn" id="candleBtn" aria-label="Blow out the candle and make a wish">
+      <div class="candle" id="candle">
+        <div class="flame"></div>
+        <div class="smoke"></div>
+        <div class="wickline"></div>
+      </div>
+    </button>
+    <p class="wish-cap" id="wishCap">tap the flame &middot; make a wish</p>
+    <p class="wish-made script" id="wishMade" aria-live="polite"></p>
+  </div>
+
+  <footer>sealed &middot; stamped &middot; sent with love</footer>
+</section>
+
+<script>
+  var envelope = document.getElementById('envelope');
+  var desk = document.getElementById('desk');
+
+  envelope.addEventListener('click', function () {
+    if (envelope.classList.contains('open')) return;
+    envelope.classList.add('open');
+    var delay = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650;
+    setTimeout(function () {
+      desk.classList.add('out');
+      desk.scrollIntoView({ behavior: delay ? 'smooth' : 'auto', block: 'start' });
+    }, delay);
+  });
+
+  var candle = document.getElementById('candle');
+  var wishWrap = document.getElementById('wishWrap');
+  document.getElementById('candleBtn').addEventListener('click', function () {
+    if (candle.classList.contains('blown')) return;
+    candle.classList.add('blown');
+    wishWrap.classList.add('blown-wrap');
+    document.getElementById('wishCap').textContent = 'it’s yours now · just like I am';
+    document.getElementById('wishMade').textContent = 'happy 20th, Steph';
+  });
+</script>
